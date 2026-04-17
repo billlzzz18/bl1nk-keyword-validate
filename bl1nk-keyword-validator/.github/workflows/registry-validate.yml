@@ -1,0 +1,53 @@
+name: Registry Validation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.json'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.json'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Build CLI
+      run: cargo build -p bl1nk-keyword-cli --release
+
+    - name: Discover latest schema version
+      id: schema
+      run: |
+        SCHEMA_FILE=$(find settings -name "keyword-schema.json" -type f | sort -V | tail -1)
+        if [ -z "$SCHEMA_FILE" ]; then
+          echo "Error: No keyword-schema.json found in settings/" >&2
+          exit 1
+        fi
+        echo "schema_path=$SCHEMA_FILE" >> $GITHUB_OUTPUT
+        echo "Using schema: $SCHEMA_FILE"
+
+    - name: Validate Registry
+      run: |
+        ./target/release/keyword-registry -s ${{ steps.schema.outputs.schema_path }} validate

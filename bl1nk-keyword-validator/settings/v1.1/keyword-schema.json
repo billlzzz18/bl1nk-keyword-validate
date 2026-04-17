@@ -1,0 +1,275 @@
+{
+  "version": "1.1.0",
+  "metadata": {
+    "lastUpdated": "2026-04-04T00:00:00Z",
+    "description": "Unified keyword registry and knowledge backbone with group-scoped namespacing",
+    "owner": "อาจารย์"
+  },
+  
+  "groups": [
+    {
+      "groupId": "projects",
+      "groupName": "โปรเจกต์",
+      "description": "Namespace for software projects, products, and repositories",
+      "baseFieldsSchema": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "required": true,
+          "description": "Unique identifier within the projects namespace"
+        },
+        "aliases": {
+          "type": "array",
+          "itemType": "string",
+          "required": true,
+          "description": "Search aliases (Thai, English, and variants)"
+        },
+        "type": {
+          "type": "enum",
+          "values": ["app", "library", "skill", "plugin", "tool", "template"],
+          "required": true,
+          "description": "Project category"
+        },
+        "status": {
+          "type": "enum",
+          "values": ["active", "archived", "planning", "maintenance"],
+          "required": true,
+          "description": "Development lifecycle status"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 255,
+          "required": true,
+          "description": "Concise description of the project"
+        },
+        "tags": {
+          "type": "array",
+          "itemType": "string",
+          "required": false,
+          "description": "Categorization tags"
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^https://github.com/",
+          "required": false,
+          "description": "Primary repository URL"
+        }
+      },
+      "customFieldAllowed": {
+        "enabled": true,
+        "maxOne": true,
+        "description": "Allows 1 additional context-specific field",
+        "examples": [
+          {
+            "fieldName": "primaryTech",
+            "type": "string",
+            "description": "Main tech stack"
+          }
+        ]
+      },
+      "entries": [
+        {
+          "id": "visual-story-extension",
+          "aliases": [
+            "visual-story",
+            "ภาพเรื่อง",
+            "story-extension"
+          ],
+          "type": "plugin",
+          "status": "active",
+          "description": "Workflow and context-linking architecture for story visualization",
+          "tags": ["gemini", "claude-code", "toml", "markdown"],
+          "repository": "https://github.com/dollawatt/bl1nk-visual-story-extension"
+        },
+        {
+          "id": "mintlify-docs-builder",
+          "aliases": [
+            "mintlify-docs",
+            "docs-builder",
+            "api-docs",
+            "เอกสารซ่อม"
+          ],
+          "type": "skill",
+          "status": "active",
+          "description": "Reusable skill for building Mintlify documentation",
+          "tags": ["documentation", "api-reference", "markdown"]
+        }
+      ]
+    },
+
+    {
+      "groupId": "skills",
+      "groupName": "ทักษะ",
+      "description": "Namespace for reusable agent skills, automations, and workflows",
+      "baseFieldsSchema": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "required": true,
+          "description": "Unique identifier within the skills namespace"
+        },
+        "aliases": {
+          "type": "array",
+          "itemType": "string",
+          "required": true,
+          "description": "Search aliases (Thai, English, and variants)"
+        },
+        "category": {
+          "type": "enum",
+          "values": [
+            "data-processing",
+            "code-generation",
+            "architecture",
+            "documentation",
+            "testing",
+            "deployment",
+            "analysis",
+            "automation"
+          ],
+          "required": true,
+          "description": "Skill category"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 255,
+          "required": true,
+          "description": "Skill description"
+        },
+        "framework": {
+          "type": "string",
+          "required": false,
+          "description": "Primary framework"
+        }
+      },
+      "customFieldAllowed": {
+        "enabled": true,
+        "maxOne": true,
+        "description": "Allows 1 metadata field (e.g., complexity, estimatedTime)",
+        "examples": [
+          {
+            "fieldName": "complexity",
+            "type": "enum",
+            "values": ["beginner", "intermediate", "advanced"],
+            "description": "Difficulty level"
+          }
+        ]
+      },
+      "entries": [
+        {
+          "id": "write-api-reference",
+          "aliases": [
+            "api-docs",
+            "api-reference",
+            "เอกสาร-api"
+          ],
+          "category": "documentation",
+          "description": "Produces API reference documentation for Next.js APIs",
+          "framework": "Next.js"
+        }
+      ]
+    },
+
+    {
+      "groupId": "keywords",
+      "groupName": "คีเวิร์ดทั่วไป",
+      "description": "Namespace for general terminology, patterns, and concepts",
+      "baseFieldsSchema": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "required": true,
+          "description": "Unique keyword identifier"
+        },
+        "aliases": {
+          "type": "array",
+          "itemType": "string",
+          "required": true,
+          "description": "Search variants"
+        },
+        "type": {
+          "type": "enum",
+          "values": [
+            "concept",
+            "technology",
+            "pattern",
+            "workflow",
+            "tool",
+            "methodology"
+          ],
+          "required": true,
+          "description": "Keyword type"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 255,
+          "required": true,
+          "description": "Keyword description"
+        },
+        "relatedIds": {
+          "type": "array",
+          "itemType": "string",
+          "required": false,
+          "description": "Links to related entries across any namespace"
+        }
+      },
+      "customFieldAllowed": {
+        "enabled": true,
+        "maxOne": true,
+        "description": "Allows 1 additional metadata field",
+        "examples": [
+          {
+            "fieldName": "exampleUrl",
+            "type": "string",
+            "description": "External reference link"
+          }
+        ]
+      },
+      "entries": [
+        {
+          "id": "mcp-server",
+          "aliases": [
+            "mcp",
+            "model-context-protocol",
+            "mcp-integration"
+          ],
+          "type": "concept",
+          "description": "Protocol for connecting AI models to external tools and services",
+          "relatedIds": [
+            "agent-skills-kb",
+            "mcp-client-builder"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "validation": {
+    "rules": {
+      "aliasMinLength": 2,
+      "aliasMaxLength": 50,
+      "descriptionMinLength": 10,
+      "descriptionMaxLength": 255,
+      "customFieldPerEntry": 1,
+      "requiredBaseFields": [
+        "id",
+        "aliases",
+        "type",
+        "description"
+      ]
+    },
+    "errorMessages": {
+      "INVALID_ID": "ID must match pattern for the specific group namespace",
+      "DUPLICATE_ID": "ID already exists in this group namespace",
+      "ALIAS_TOO_SHORT": "Alias must be at least 2 characters",
+      "ALIAS_TOO_LONG": "Alias must not exceed 50 characters",
+      "MISSING_REQUIRED_FIELD": "Required field missing: {field}",
+      "INVALID_ENUM": "Value must be one of: {values}",
+      "CUSTOM_FIELD_MISMATCH": "Custom field type does not match schema definition",
+      "DESCRIPTION_TOO_LONG": "Description exceeds 255 characters",
+      "DUPLICATE_ALIAS": "This alias is already used in namespace: {group}",
+      "INVALID_TYPE": "Field type mismatch. Expected {type}, got {actual}",
+      "INVALID_PATTERN": "Value does not match the required pattern for this field",
+      "BROKEN_RELATIONSHIP": "Referenced ID does not exist in the registry"
+    }
+  }
+}

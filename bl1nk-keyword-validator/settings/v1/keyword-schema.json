@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KeywordRegistry",
+  "type": "object",
+  "required": [
+    "groups",
+    "metadata",
+    "validation",
+    "version"
+  ],
+  "properties": {
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/KeywordGroup"
+      }
+    },
+    "metadata": {
+      "$ref": "#/definitions/Metadata"
+    },
+    "validation": {
+      "$ref": "#/definitions/ValidationConfig"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "CustomFieldConfig": {
+      "type": "object",
+      "required": [
+        "description",
+        "enabled",
+        "maxOne"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "examples": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": true
+        },
+        "maxOne": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FieldSchema": {
+      "type": "object",
+      "required": [
+        "description",
+        "type"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "itemType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "maxLength": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "pattern": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "type": {
+          "type": "string"
+        },
+        "values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "KeywordGroup": {
+      "type": "object",
+      "required": [
+        "baseFieldsSchema",
+        "customFieldAllowed",
+        "description",
+        "entries",
+        "groupId",
+        "groupName"
+      ],
+      "properties": {
+        "baseFieldsSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/FieldSchema"
+          }
+        },
+        "customFieldAllowed": {
+          "$ref": "#/definitions/CustomFieldConfig"
+        },
+        "description": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array",
+          "items": true
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "groupName": {
+          "type": "string"
+        }
+      }
+    },
+    "Metadata": {
+      "type": "object",
+      "required": [
+        "description",
+        "lastUpdated",
+        "owner"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        }
+      }
+    },
+    "ValidationConfig": {
+      "type": "object",
+      "required": [
+        "errorMessages",
+        "rules"
+      ],
+      "properties": {
+        "errorMessages": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "rules": {
+          "$ref": "#/definitions/ValidationRules"
+        }
+      }
+    },
+    "ValidationRules": {
+      "type": "object",
+      "required": [
+        "aliasMaxLength",
+        "aliasMinLength",
+        "customFieldPerEntry",
+        "descriptionMaxLength",
+        "descriptionMinLength",
+        "requiredBaseFields"
+      ],
+      "properties": {
+        "aliasMaxLength": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "aliasMinLength": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "customFieldPerEntry": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "descriptionMaxLength": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "descriptionMinLength": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "requiredBaseFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

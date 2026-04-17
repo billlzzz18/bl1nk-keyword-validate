@@ -1,0 +1,21 @@
+steps:
+  # Step 1: Build the Rust binary in release mode
+  - name: 'rust:1.75'
+    args: ['cargo', 'build', '--release']
+    id: 'build'
+
+  # Step 2: Run tests
+  - name: 'rust:1.75'
+    args: ['cargo', 'test']
+    id: 'test'
+    waitFor: ['build']
+
+# Artifacts to be stored (e.g., in GCS if configured in the trigger)
+artifacts:
+  objects:
+    location: 'gs://${_ARTIFACT_BUCKET}/binaries/$COMMIT_SHA/'
+    paths: ['target/release/keyword-registry']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
